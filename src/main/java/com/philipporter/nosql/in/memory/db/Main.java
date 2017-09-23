@@ -12,16 +12,20 @@ public class Main {
     
     // Using https://odoepner.files.wordpress.com/2015/04/mastering_hazelcast1.pdf for documentation
     public static void main(String[] args) throws InterruptedException{
+        /*
+            Create two instances and test the cluster. Call 
+            newId() for both IdGenerator objects. The IDs generated 
+            will advance 10k and remain unique.
+        */
         HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+        HazelcastInstance hz2 = Hazelcast.newHazelcastInstance();
         IdGenerator idGenerator = hz.getIdGenerator("id");
+        IdGenerator idGenerator2 = hz2.getIdGenerator("id");
+        
         for (int k = 0; k < 10; k++){
             Thread.sleep(200);
             System.out.printf("Id : %s\n", idGenerator.newId());
+            System.out.printf("Id : %s\n", idGenerator2.newId());
         }
-        /*
-            Run the application more times simultaneously and 
-            the newIds being generated will advance 10k and 
-            remain unique.
-        */
     }
 }
